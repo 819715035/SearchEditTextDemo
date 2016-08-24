@@ -11,4 +11,4 @@
 输入文字时
 ![输入文字时](https://github.com/wenwenwen888/SearchEditTextDemo/blob/master/preview/3.png)</br></br>
 点击搜索
-![点击搜索](https://github.com/wenwenwen888/SearchEditTextDemo/blob/master/preview/3.png)
+![点击搜索](https://github.com/wenwenwen888/SearchEditTextDemo/blob/master/preview/4.png)
