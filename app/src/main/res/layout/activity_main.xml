@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.wyt.searchedittextdemo.MainActivity">
+
+    <com.wyt.searchedittextdemo.SearchEditText
+        android:id="@+id/searchEditText"
+        style="@style/editTextStyle" />
+
+</LinearLayout>
