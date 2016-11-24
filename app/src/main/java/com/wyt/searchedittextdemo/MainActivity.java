@@ -2,8 +2,12 @@ package com.wyt.searchedittextdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
+
+import com.wyt.searchedittext.SearchEditText;
+
 
 public class MainActivity extends Activity implements SearchEditText.OnSearchClickListener {
 
@@ -24,9 +28,8 @@ public class MainActivity extends Activity implements SearchEditText.OnSearchCli
      * 搜索事件
      */
     @Override
-    public void onSearchClick(View view) {
-        String keyword = searchEditText.getText().toString();
-        if (!keyword.equals("")) {
+    public void onSearchClick(View view, String keyword) {
+        if (!TextUtils.isEmpty(keyword)) {
             //在这里处理逻辑
             Toast.makeText(this, keyword, Toast.LENGTH_SHORT).show();
         }

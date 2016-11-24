@@ -1,6 +1,7 @@
-package com.wyt.searchedittextdemo;
+package com.wyt.searchedittext;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -8,7 +9,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +34,7 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
     private OnSearchClickListener listener;
 
     private Drawable[] drawables; // 控件的图片资源
-    private Drawable drawableLeft, drawableDel; // 搜索图标和删除按钮图标
+    private Drawable drawableLeft, drawableDel, drawable; // 搜索图标和删除按钮图标
     private int eventX, eventY; // 记录点击坐标
     private Rect rect; // 控件区域
 
@@ -43,7 +43,7 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
     }
 
     public interface OnSearchClickListener {
-        void onSearchClick(View view);
+        void onSearchClick(View view, String keyword);
     }
 
     public SearchEditText(Context context) {
@@ -54,13 +54,22 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
 
     public SearchEditText(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.editTextStyle);
+        initParams(context, attrs);
         init();
     }
 
-
     public SearchEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initParams(context, attrs);
         init();
+    }
+
+    private void initParams(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SearchEditText);
+        if (typedArray != null) {
+            drawable = typedArray.getDrawable(R.styleable.SearchEditText_drawableDel);
+            typedArray.recycle();
+        }
     }
 
     private void init() {
@@ -68,7 +77,6 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
         setOnKeyListener(this);
         addTextChangedListener(this);
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -108,7 +116,7 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
             if (imm.isActive()) {
                 imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
             }
-            listener.onSearchClick(v);
+            listener.onSearchClick(v, getText().toString());
         }
         return false;
     }
@@ -119,7 +127,7 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
         if (drawableDel != null && event.getAction() == MotionEvent.ACTION_UP) {
             eventX = (int) event.getRawX();
             eventY = (int) event.getRawY();
-            Log.i(TAG, "eventX = " + eventX + "; eventY = " + eventY);
+//            Log.i(TAG, "eventX = " + eventX + "; eventY = " + eventY);
             if (rect == null) rect = new Rect();
             getGlobalVisibleRect(rect);
             rect.left = rect.right - drawableDel.getIntrinsicWidth();
@@ -136,7 +144,7 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
         if (this.length() < 1) {
             drawableDel = null;
         } else {
-            drawableDel = this.getResources().getDrawable(R.drawable.edit_delete);
+            drawableDel = drawable;
         }
     }
 
